@@ -3,6 +3,8 @@ import {
   TypeOrmModuleAsyncOptions,
   TypeOrmModuleOptions,
 } from '@nestjs/typeorm';
+import { Students } from 'src/modules/students/students.entity';
+import { Teachers } from 'src/modules/teachers/teachers.entity';
 
 export default class TypeOrmConfig {
   static getOrmConfig(configService: ConfigService): TypeOrmModuleOptions {
@@ -18,7 +20,7 @@ export default class TypeOrmConfig {
           ? { rejectUnauthorized: false }
           : undefined,
       synchronize: true,
-      entities: [],
+      entities: [Teachers, Students],
       migrations: ['dist/db/migrations/*.js'],
     };
   }
