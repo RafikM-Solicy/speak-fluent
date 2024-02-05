@@ -1,22 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfigAsync } from '../db/ormconfig';
+import { ConfigModule } from '@nestjs/config';
+import { dataSourceOptions } from '../db/ormconfig';
 import { TeachersModule } from './modules/teachers/teachers.module';
 import { StudentsModule } from './modules/students/students.module';
-import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forRootAsync(typeOrmConfigAsync),
-    AuthModule,
+    TypeOrmModule.forRoot(dataSourceOptions),
     TeachersModule,
-    StudentsModule,
+    StudentsModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
