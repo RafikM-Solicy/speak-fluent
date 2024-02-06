@@ -17,6 +17,5 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // we'll return the payload itself. Any necessary request-specific data
     // should be included in the payload during token creation.
     console.log('Decoded JWT Payload:', payload);
-    return this.authService.validateUser(payload);
   }
 }

@@ -5,7 +5,9 @@ import { StudentsService } from './students.service';
 import { StudentsController } from './students.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Students])],
+  imports: [
+    TypeOrmModule.forFeature([Students]),
+  ],
   providers: [StudentsService],
   controllers: [StudentsController],
   exports: [StudentsService]
