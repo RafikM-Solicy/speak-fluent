@@ -1,5 +1,4 @@
-import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Post, UseGuards, Request, Body, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { StudentGuard } from './guards/students.guard';
 import { TeacherGuard } from './guards/teachers.guard';
@@ -10,8 +9,27 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() body) {
-    return this.authService.login(body);
+  @UsePipes(new ValidationPipe())
+  async login(@Body() credentials: { email: string; password: string; role: 'student' | 'teacher' }) {
+    const user = await this.authService.validateUser(
+      credentials.email,
+      credentials.password,
+      credentials.role,
+    );
+
+    if (!user) {
+      return { message: 'Invalid credentials' };
+    }
+
+    const payload = {
+      username: user.name,
+      sub: user.id,
+      role: user.role,
+    };
+
+    return {
+      access_token: await this.authService.login(payload),
+    };
   }
 
   @Post('student-protected')

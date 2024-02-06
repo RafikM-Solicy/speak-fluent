@@ -22,6 +22,11 @@ export class Students {
   })
   email: string;
 
+  @Column({
+    nullable: false
+  })
+  password: string;
+
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
